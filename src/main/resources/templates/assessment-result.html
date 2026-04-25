@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assessment Result - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/assessment}" class="hover:text-blue-400">New Assessment</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-8 py-16">
+
+    <div class="mb-10">
+        <h1 class="text-4xl font-bold mb-3">Assessment Results</h1>
+        <p class="text-slate-400">
+            D3FENDer identified
+            <span class="text-white font-semibold" th:text="${response.findings_count}"></span>
+            potential defensive gaps.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p class="text-slate-400 text-sm">Total Findings</p>
+            <p class="text-3xl font-bold mt-2" th:text="${response.findings_count}"></p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p class="text-slate-400 text-sm">Assessment Type</p>
+            <p class="text-3xl font-bold mt-2">Plain Text</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <p class="text-slate-400 text-sm">Reasoning Method</p>
+            <p class="text-3xl font-bold mt-2">Rule-Based</p>
+        </div>
+    </div>
+
+    <div class="space-y-6">
+
+        <div th:each="finding : ${response.findings}"
+             class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+
+            <div class="flex justify-between items-start gap-4 mb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white"
+                        th:text="${finding['title']}">
+                        Finding Title
+                    </h2>
+
+                    <p class="text-slate-500 text-sm mt-1"
+                       th:text="${finding['rule_id']}">
+                        RULE.ID
+                    </p>
+                </div>
+
+                <span class="px-3 py-1 rounded-full text-sm font-semibold"
+                      th:text="${#strings.toUpperCase(finding['severity'])}"
+                      th:classappend="
+                        ${finding['severity'] == 'high'} ? ' bg-red-900 text-red-200' :
+                        (${finding['severity'] == 'medium'} ? ' bg-yellow-900 text-yellow-200' :
+                        ' bg-green-900 text-green-200')">
+                    HIGH
+                </span>
+            </div>
+
+            <div class="mb-5">
+                <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-2">Description</h3>
+                <p class="text-slate-300" th:text="${finding['description']}"></p>
+            </div>
+
+            <div class="mb-5">
+                <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-2">Recommendation</h3>
+                <p class="text-slate-200 bg-slate-800 rounded-xl p-4"
+                   th:text="${finding['recommendation']}"></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-2">
+                        Missing Capabilities
+                    </h3>
+
+                    <div class="flex flex-wrap gap-2">
+                        <span th:each="cap : ${finding['missing_capabilities']}"
+                              th:text="${cap}"
+                              class="bg-slate-800 text-slate-200 px-3 py-1 rounded-full text-sm">
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-2">
+                        ATT&CK Techniques
+                    </h3>
+
+                    <div class="flex flex-wrap gap-2">
+                        <span th:each="tech : ${finding['attack_techniques']}"
+                              th:text="${tech}"
+                              class="bg-red-950 text-red-200 px-3 py-1 rounded-full text-sm">
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-2">
+                        D3FEND Techniques
+                    </h3>
+
+                    <div class="flex flex-wrap gap-2">
+                        <span th:each="tech : ${finding['d3fend_techniques']}"
+                              th:text="${tech}"
+                              class="bg-blue-950 text-blue-200 px-3 py-1 rounded-full text-sm">
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <details class="mt-4">
+                <summary class="cursor-pointer text-slate-400 hover:text-white">
+                    View Evidence
+                </summary>
+
+                <div class="mt-3 bg-slate-950 border border-slate-800 rounded-xl p-4">
+                    <div th:each="entry : ${finding['evidence']}" class="flex justify-between border-b border-slate-800 py-2">
+                        <span class="text-slate-400" th:text="${entry.key}"></span>
+
+                        <span th:text="${entry.value}"
+                              th:classappend="${entry.value} ? ' text-green-400' : ' text-red-400'">
+                        </span>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+
+    </div>
+
+    <div class="mt-10">
+        <a th:href="@{/assessment}"
+           class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+            Run Another Assessment
+        </a>
+    </div>
+
+</main>
+
+</body>
+</html>

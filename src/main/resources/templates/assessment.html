@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assessment - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+    <h1 class="text-4xl font-bold mb-4">Security Capability Assessment</h1>
+
+    <p class="text-slate-400 mb-8">
+        Describe your organization's defensive capabilities in plain text.
+    </p>
+
+    <form th:action="@{/assessment}" th:object="${assessmentRequest}" method="post" class="space-y-6">
+        <div>
+            <label class="block mb-3 text-sm font-medium text-slate-300">
+                Organization security description
+            </label>
+
+            <textarea th:field="*{content}"
+                      rows="12"
+                      class="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Example: We are a software company. We use token based authentication. We do not have token binding. We also perform code scanning."></textarea>
+
+            <p th:if="${#fields.hasErrors('content')}"
+               th:errors="*{content}"
+               class="text-red-400 text-sm mt-2"></p>
+        </div>
+
+        <button type="submit"
+                class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+            Run Assessment
+        </button>
+    </form>
+</main>
+
+</body>
+</html>
