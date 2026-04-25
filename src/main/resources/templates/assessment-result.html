@@ -85,45 +85,45 @@
 
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
 
-                <section>
-                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-3">
+                <section class="bg-slate-950/40 rounded-2xl px-5 py-5">
+                    <h3 class="text-base font-bold uppercase tracking-wide text-slate-300 mb-4">
                         Missing Capabilities
                     </h3>
 
-                    <div class="flex flex-wrap gap-2">
-                        <span th:each="cap : ${finding['missing_capabilities']}"
-                              th:text="${cap}"
-                              class="bg-slate-800/70 text-slate-200 px-3 py-1.5 rounded-full text-sm font-mono">
-                        </span>
-                    </div>
+                    <ul class="space-y-2">
+                        <li th:each="cap : ${finding['missing_capabilities']}"
+                            th:text="${cap}"
+                            class="text-slate-400 font-mono text-sm">
+                        </li>
+                    </ul>
                 </section>
 
-                <section>
-                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-3">
+                <section class="bg-slate-950/40 rounded-2xl px-5 py-5">
+                    <h3 class="text-base font-bold uppercase tracking-wide text-slate-300 mb-4">
                         ATT&CK Techniques
                     </h3>
 
-                    <div class="flex flex-wrap gap-2">
-                        <span th:each="tech : ${finding['attack_techniques']}"
-                              th:text="${tech}"
-                              class="bg-red-950/60 text-red-200 px-3 py-1.5 rounded-full text-sm font-mono">
-                        </span>
-                    </div>
+                    <ul class="space-y-2">
+                        <li th:each="tech : ${finding['attack_techniques']}"
+                            th:text="${tech}"
+                            class="text-slate-400 font-mono text-sm">
+                        </li>
+                    </ul>
                 </section>
 
-                <section>
-                    <h3 class="text-sm uppercase tracking-wide text-slate-500 mb-3">
+                <section class="bg-slate-950/40 rounded-2xl px-5 py-5">
+                    <h3 class="text-base font-bold uppercase tracking-wide text-slate-300 mb-4">
                         D3FEND Techniques
                     </h3>
 
-                    <div class="flex flex-wrap gap-2">
-                        <span th:each="tech : ${finding['d3fend_techniques']}"
-                              th:text="${tech}"
-                              class="bg-blue-950/60 text-blue-200 px-3 py-1.5 rounded-full text-sm font-mono">
-                        </span>
-                    </div>
+                    <ul class="space-y-2">
+                        <li th:each="tech : ${finding['d3fend_techniques']}"
+                            th:text="${tech}"
+                            class="text-slate-400 font-mono text-sm">
+                        </li>
+                    </ul>
                 </section>
 
             </div>
