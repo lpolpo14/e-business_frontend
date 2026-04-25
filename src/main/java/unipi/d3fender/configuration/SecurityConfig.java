@@ -31,7 +31,7 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/h2-console/**"
                         ).permitAll()
-                        .requestMatchers("/assessment/**", "/dashboard/**").authenticated()
+                        .requestMatchers("/assessment/**", "/dashboard/**", "/subscription/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(login -> login

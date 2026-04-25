@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pricing - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+
+    <div class="mb-12 text-center">
+        <h1 class="text-5xl font-bold mb-4">Choose Your Plan</h1>
+        <p class="text-slate-400 text-lg">
+            Select a subscription plan to access the D3FENDer assessment engine.
+        </p>
+
+        <div th:if="${param.subscriptionRequired}"
+             class="mt-6 bg-yellow-950/50 text-yellow-200 px-5 py-3 rounded-xl inline-block">
+            Please select a subscription before accessing assessments.
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- FREE PLAN -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h2 class="text-3xl font-bold mb-3">Free</h2>
+
+            <p class="text-slate-400 mb-6">
+                Basic access for testing the defensive gap analysis workflow.
+            </p>
+
+            <p class="text-4xl font-bold mb-8">
+                €0
+                <span class="text-base text-slate-400 font-normal">/ month</span>
+            </p>
+
+            <ul class="space-y-3 text-slate-300 mb-8">
+                <li>Basic plain-text assessment</li>
+                <li>Limited security findings</li>
+                <li>MITRE ATT&CK / D3FEND mapping</li>
+            </ul>
+
+            <form th:action="@{/subscription/select}" method="post">
+                <input type="hidden" name="plan" value="FREE">
+
+                <button type="submit"
+                        class="w-full bg-slate-800 hover:bg-slate-700 px-6 py-3 rounded-lg font-semibold">
+                    Select Free
+                </button>
+            </form>
+        </div>
+
+        <!-- PRO PLAN -->
+        <div class="bg-blue-950/30 border border-blue-900 rounded-3xl p-8">
+            <h2 class="text-3xl font-bold mb-3">Pro</h2>
+
+            <p class="text-slate-300 mb-6">
+                Full access to advanced security assessment and reporting features.
+            </p>
+
+            <p class="text-4xl font-bold mb-8">
+                €9.99
+                <span class="text-base text-slate-400 font-normal">/ month</span>
+            </p>
+
+            <ul class="space-y-3 text-slate-300 mb-8">
+                <li>Full plain-text assessment</li>
+                <li>Complete findings report</li>
+                <li>Recommendations and evidence</li>
+                <li>Future JSON input support</li>
+            </ul>
+
+            <form th:action="@{/subscription/select}" method="post">
+                <input type="hidden" name="plan" value="PRO">
+
+                <button type="submit"
+                        class="w-full bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold">
+                    Select Pro
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>
