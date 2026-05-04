@@ -14,12 +14,12 @@
     <div class="mb-12 text-center">
         <h1 class="text-5xl font-bold mb-4">Choose Your Plan</h1>
         <p class="text-slate-400 text-lg">
-            Select a subscription plan to access the D3FENDer assessment engine.
+            Find your security weaknesses before your adversaries do.
         </p>
 
         <div th:if="${param.subscriptionRequired}"
              class="mt-6 bg-yellow-950/50 text-yellow-200 px-5 py-3 rounded-xl inline-block">
-            Please select a subscription before accessing assessments.
+            Please select a subscription before gaining access to the D3FENDer assessment system.
         </div>
     </div>
 
@@ -70,6 +70,7 @@
                 <li>Full plain-text assessment</li>
                 <li>Complete findings report</li>
                 <li>Future JSON input support</li>
+                <li>Future Questionnaire support</li>
             </ul>
 
             <form th:action="@{/subscription/select}" method="post">
