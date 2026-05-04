@@ -5,10 +5,13 @@
     <link rel="stylesheet" th:href="@{/css/output.css}">
 </head>
 
-<body class="bg-slate-950 text-white min-h-screen">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col">
+
 
 <!-- Navbar -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="flex-1">
 
 <!-- Content -->
 <section class="max-w-4xl mx-auto text-center mt-16 px-8">
@@ -41,6 +44,11 @@
     </div>
 
 </section>
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 
 </body>
 </html>

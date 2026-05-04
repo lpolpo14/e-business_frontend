@@ -4,7 +4,7 @@
     <title>Dashboard - D3FENDer</title>
     <link rel="stylesheet" th:href="@{/css/output.css}">
 </head>
-<body class="bg-slate-950 text-white min-h-screen">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col">
 
 <nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
     <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
@@ -19,17 +19,70 @@
     </div>
 </nav>
 
-<main class="max-w-5xl mx-auto py-20 px-8">
+<main class="max-w-5xl mx-auto py-20 px-8 flex-1">
+
     <h1 class="text-4xl font-bold mb-4">User Dashboard</h1>
-    <p class="text-slate-400 mb-8">
-        Welcome to your D3FENDer security assessment dashboard.
+    <p class="text-slate-400 mb-10">
+        Choose how you want to perform your security assessment.
     </p>
 
-    <a th:href="@{/assessment}"
-       class="inline-block bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
-        Start Security Assessment
-    </a>
+    <!-- Assessment Methods -->
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Standard Assessment -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-2">Standard Assessment</h2>
+            <p class="text-slate-400 text-sm mb-6">
+                Start a manual threat-driven assessment using predefined techniques.
+            </p>
+
+            <a th:href="@{/assessment}"
+               class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Start
+            </a>
+        </div>
+
+        <!-- Questionnaire (PRO) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 opacity-60">
+
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-semibold">Questionnaire</h2>
+                <span class="text-xs bg-yellow-500 text-black px-2 py-1 rounded">PRO</span>
+            </div>
+
+            <p class="text-slate-400 text-sm mb-6">
+                Answer guided questions to automatically generate your security assessment.
+            </p>
+
+            <button disabled
+                    class="w-full bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
+                Coming Soon
+            </button>
+        </div>
+
+        <!-- JSON Input (PRO) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 opacity-60">
+
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-semibold">JSON Input</h2>
+                <span class="text-xs bg-yellow-500 text-black px-2 py-1 rounded">PRO</span>
+            </div>
+
+            <p class="text-slate-400 text-sm mb-6">
+                Upload structured JSON data to perform automated security analysis.
+            </p>
+
+            <button disabled
+                    class="w-full bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
+                Coming Soon
+            </button>
+        </div>
+
+    </div>
+
 </main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

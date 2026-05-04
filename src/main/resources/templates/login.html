@@ -10,7 +10,7 @@
     <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
     <div class="space-x-6">
         <a th:href="@{/}" class="hover:text-blue-400">Home</a>
-        <a th:href="@{/assessment}" class="hover:text-blue-400">Assessment</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
         <a th:href="@{/register}" class="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700">Register</a>
     </div>
 </nav>
@@ -53,6 +53,9 @@
         </p>
     </div>
 </main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 
 </body>
 </html>

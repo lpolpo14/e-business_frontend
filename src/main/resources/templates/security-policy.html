@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Security Policy - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen flex flex-col">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="flex-1">
+    <section class="max-w-4xl mx-auto mt-16 px-8">
+        <h1 class="text-4xl font-bold mb-6 text-center">Security Policy</h1>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-6 text-slate-300">
+            <div>
+                <h2 class="text-xl font-semibold text-white mb-2">Responsible Use</h2>
+                <p>D3FENDer is designed for defensive security assessment and should not be used for unauthorized testing, exploitation, or harmful activity.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

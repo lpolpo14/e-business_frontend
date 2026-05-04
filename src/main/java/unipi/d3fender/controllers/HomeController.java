@@ -10,4 +10,20 @@ public class HomeController {
     public String home() {
         return "index";
     }
+
+
+    @GetMapping("/faq")
+    public String faq() {
+        return "faq";
+    }
+
+    @GetMapping("/terms")
+    public String terms() {
+        return "terms";
+    }
+
+    @GetMapping("/security-policy")
+    public String securityPolicy() {
+        return "security-policy";
+    }
 }
