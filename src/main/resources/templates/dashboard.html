@@ -43,7 +43,7 @@
         </div>
 
         <!-- Questionnaire (PRO) -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 opacity-60">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
 
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-xl font-semibold">Questionnaire</h2>
@@ -54,14 +54,14 @@
                 Answer guided questions to generate your security assessment.
             </p>
 
-            <button disabled
-                    class="w-full bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
-                Coming Soon
-            </button>
+            <a th:href="@{/assessment/questionnaire/threat-context}"
+               class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Start
+            </a>
         </div>
 
         <!-- JSON Input (PRO) -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 opacity-60">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
 
             <div class="flex justify-between items-center mb-2">
                 <h2 class="text-xl font-semibold">JSON Input</h2>
@@ -72,10 +72,10 @@
                 Upload structured JSON data to perform automated security analysis.
             </p>
 
-            <button disabled
-                    class="w-full bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
-                Coming Soon
-            </button>
+            <a th:href="@{/assessment/json}"
+               class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Start
+            </a>
         </div>
 
     </div>

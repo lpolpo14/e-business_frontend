@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Questionnaire Assessment - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+    <div class="mb-10">
+        <span class="inline-block mb-4 text-xs bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
+            PRO
+        </span>
+
+        <h1 class="text-4xl font-bold mb-4">Guided Security Questionnaire</h1>
+
+        <p class="text-slate-400">
+            Answer a few guided questions. D3FENDer will convert your answers into a structured
+            defensive capability assessment.
+        </p>
+    </div>
+
+    <form th:action="@{/assessment/questionnaire}" method="post" class="space-y-10">
+
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-6">Threat Context</h2>
+
+            <div class="space-y-4">
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization support remote work?</span>
+                    <input type="checkbox" name="remote_workforce" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization handle sensitive data?</span>
+                    <input type="checkbox" name="handles_sensitive_data" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6">
+                    <span>Does the organization expose a public web application?</span>
+                    <input type="checkbox" name="public_web_application" value="true" class="w-5 h-5">
+                </label>
+            </div>
+        </section>
+
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-6">Security Controls</h2>
+
+            <div class="space-y-4">
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use a firewall?</span>
+                    <input type="checkbox" name="firewall" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use a VPN?</span>
+                    <input type="checkbox" name="vpn" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use security monitoring?</span>
+                    <input type="checkbox" name="security_monitoring" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6">
+                    <span>Does the organization use antivirus or endpoint protection?</span>
+                    <input type="checkbox" name="antivirus" value="true" class="w-5 h-5">
+                </label>
+            </div>
+        </section>
+
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-6">Defensive Capabilities</h2>
+
+            <div class="space-y-4">
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use multi-factor authentication?</span>
+                    <input type="checkbox" name="multi-factor_authentication" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use token-based authentication?</span>
+                    <input type="checkbox" name="token_based_authentication" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization perform code analysis?</span>
+                    <input type="checkbox" name="code_analysis" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use input validation?</span>
+                    <input type="checkbox" name="input_validation" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4">
+                    <span>Does the organization use executable allowlisting?</span>
+                    <input type="checkbox" name="executable_allowlisting" value="true" class="w-5 h-5">
+                </label>
+
+                <label class="flex items-center justify-between gap-6">
+                    <span>Does the organization use disk encryption?</span>
+                    <input type="checkbox" name="disk_encryption" value="true" class="w-5 h-5">
+                </label>
+            </div>
+        </section>
+
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Run Questionnaire Assessment
+            </button>
+
+            <a th:href="@{/dashboard}"
+               class="bg-slate-800 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </form>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>JSON Assessment - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+    <div class="mb-8">
+        <span class="inline-block mb-4 text-xs bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
+            PRO
+        </span>
+
+        <h1 class="text-4xl font-bold mb-4">JSON Security Assessment</h1>
+
+        <p class="text-slate-400">
+            Paste structured JSON data describing your organization's threat context,
+            defensive controls, and defensive capabilities.
+        </p>
+    </div>
+
+    <form th:action="@{/assessment/json}" th:object="${assessmentRequest}" method="post" class="space-y-6">
+        <div>
+            <label class="block mb-3 text-sm font-medium text-slate-300">
+                Organization security JSON
+            </label>
+
+            <textarea th:field="*{content}"
+                      rows="22"
+                      class="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                      placeholder='{
+  "metadata": {
+    "organization": "Mike Corp"
+  },
+  "threat_context": {
+    "remote_workforce": true,
+    "handles_sensitive_data": true
+  },
+  "defensive_controls": {
+    "network_security": {
+      "firewall": false,
+      "vpn": false
+    }
+  },
+  "defensive_capabilities": {
+    "authentication": {
+      "multi-factor_authentication": false
+    }
+  }
+}'></textarea>
+
+            <p th:if="${#fields.hasErrors('content')}"
+               th:errors="*{content}"
+               class="text-red-400 text-sm mt-2"></p>
+        </div>
+
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Run JSON Assessment
+            </button>
+
+            <a th:href="@{/dashboard}"
+               class="bg-slate-800 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700">
+                Back to Dashboard
+            </a>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

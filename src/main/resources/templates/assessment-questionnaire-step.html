@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Questionnaire Assessment - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+
+    <div class="mb-10">
+        <span class="inline-block mb-4 text-xs bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
+            PRO
+        </span>
+
+        <h1 class="text-4xl font-bold mb-4">Guided Security Questionnaire</h1>
+
+        <p class="text-slate-400">
+            Answer the questions below. D3FENDer will convert your answers into a structured
+            defensive capability assessment.
+        </p>
+    </div>
+
+    <form th:action="@{${formAction}}" method="post" class="space-y-10">
+
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <h2 class="text-2xl font-bold mb-2" th:text="${stepTitle}">
+                Questionnaire Step
+            </h2>
+
+            <p class="text-slate-400 mb-8">
+                Select every statement that applies to your organization.
+            </p>
+
+            <div class="space-y-4">
+                <label th:each="question, iterStat : ${questions}"
+                       class="flex items-center justify-between gap-6 border-b border-slate-800 pb-4 last:border-b-0 last:pb-0 cursor-pointer hover:bg-slate-800/40 rounded-xl px-3 py-3 transition">
+
+                    <div>
+                        <span class="block text-slate-100 font-medium"
+                              th:text="${question.text}">
+                            Question text
+                        </span>
+
+                        <span class="block text-slate-500 text-xs font-mono mt-2"
+                              th:text="${question.id}">
+                            question.id
+                        </span>
+                    </div>
+
+                    <input type="checkbox"
+                           th:name="${question.id}"
+                           value="true"
+                           class="w-5 h-5 shrink-0">
+                </label>
+            </div>
+        </section>
+
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Continue
+            </button>
+
+            <a th:href="@{/dashboard}"
+               class="bg-slate-800 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </form>
+
+</main>
+
+</body>
+</html>
