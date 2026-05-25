@@ -37,11 +37,20 @@
 
     <form th:action="@{/assessment/json}" th:object="${assessmentRequest}" method="post" class="space-y-6">
         <div>
-            <label class="block mb-3 text-sm font-medium text-slate-300">
-                Organization security JSON
-            </label>
+            <div class="flex items-center justify-between mb-3">
+                <label class="block text-sm font-medium text-slate-300">
+                    Organization security JSON
+                </label>
 
-            <textarea th:field="*{content}"
+                <button type="button"
+                        onclick="usePredefinedTemplate()"
+                        class="bg-slate-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-700">
+                    Use predefined template
+                </button>
+            </div>
+
+        <textarea th:field="*{content}"
+                      id="jsonInput"
                       rows="22"
                       class="w-full p-4 rounded-xl bg-slate-900 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
                       placeholder='{
@@ -85,4 +94,94 @@
 </main>
 
 </body>
+
+<script>
+    function usePredefinedTemplate() {
+        const template = {
+            "metadata": {
+                "organization": "Mike Corp",
+                "assessor": "Michael"
+            },
+            "threat_context": {
+                "involves_software_engineering": false,
+                "public_web_application": false,
+                "remote_workforce": true,
+                "handles_sensitive_data": true
+            },
+            "defensive_controls": {
+                "network_security": {
+                    "firewall": false,
+                    "vpn": false
+                },
+                "access_control": {
+                    "identity_access_management": false
+                },
+                "detection": {
+                    "security_monitoring": false
+                },
+                "identity": {
+                    "session_credential_management": false
+                },
+                "endpoint_security": {
+                    "antivirus": false
+                }
+            },
+            "defensive_capabilities": {
+                "authentication": {
+                    "token_based_authentication": false,
+                    "password_authentication": false,
+                    "multi-factor_authentication": false,
+                    "certificate_based_authentication": false
+                },
+                "credential_hardening": {
+                    "certificate_pinning": false,
+                    "credential_rotation": false,
+                    "token_binding": false,
+                    "revocation": false,
+                    "scrubbing": false
+                },
+                "application_hardening": {
+                    "dead_code_elimination": false,
+                    "code_analysis": false,
+                    "address_space_layout_randomization(aslr)": false,
+                    "stack_frame_canary_validation": false,
+                    "input_validation": false
+                },
+                "processes_and_policies": {
+                    "password_policy": false
+                },
+                "detection": {
+                    "user_behavior_analysis": false,
+                    "remote_terminal": false
+                },
+                "file_security": {
+                    "file_hashing": false,
+                    "file_content_analysis": false,
+                    "local_permissions": false,
+                    "executable_allowlisting": true,
+                    "disk_encryption": false
+                },
+                "deception": {
+                    "decoy_environment": false
+                },
+                "communications_security": {
+                    "message_encryption": false
+                },
+                "dns_security": {
+                    "dns_allowlisting": false,
+                    "dns_denylisting": false,
+                    "dns_traffic_analysis": false
+                },
+                "database_security": {
+                    "query_string_analysis": false
+                },
+                "application_security": {
+                    "process_isolation": false
+                }
+            }
+        };
+
+        document.getElementById("jsonInput").value = JSON.stringify(template, null, 2);
+    }
+</script>
 </html>
