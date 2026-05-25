@@ -27,7 +27,7 @@
     </p>
 
     <!-- Assessment Methods -->
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <!-- Standard Assessment -->
         <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
@@ -73,6 +73,24 @@
             </p>
 
             <a th:href="@{/assessment/json}"
+               class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Start
+            </a>
+        </div>
+
+        <!-- SBOM Analysis (PRO) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-xl font-semibold">SBOM Analysis</h2>
+                <span class="text-xs bg-yellow-500 text-black px-2 py-1 rounded">PRO</span>
+            </div>
+
+            <p class="text-slate-400 text-sm mb-6">
+                Upload a JSON SBOM file and detect known vulnerabilities in its components.
+            </p>
+
+            <a th:href="@{/sbom}"
                class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
                 Start
             </a>

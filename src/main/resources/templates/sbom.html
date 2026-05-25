@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SBOM Analysis - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+<nav class="flex justify-between items-center px-8 py-5 border-b border-slate-800">
+    <a th:href="@{/}" class="text-2xl font-bold">D3FENDer</a>
+
+    <div class="space-x-6">
+        <a th:href="@{/}" class="hover:text-blue-400">Home</a>
+        <a th:href="@{/dashboard}" class="hover:text-blue-400">Dashboard</a>
+
+        <form th:action="@{/logout}" method="post" class="inline">
+            <button type="submit" class="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="max-w-5xl mx-auto px-8 py-16">
+
+    <div class="mb-10">
+        <span class="inline-block mb-4 text-xs bg-yellow-500 text-black px-3 py-1 rounded-full font-bold">
+            PRO
+        </span>
+
+        <h1 class="text-4xl font-bold mb-4">SBOM Vulnerability Analysis</h1>
+
+        <p class="text-slate-400">
+            Please upload a Software Bill of Materials (SBOM) json file. D3FENDer will analyze its components
+            and detect potential vulnerabilities.
+        </p>
+    </div>
+
+    <div th:if="${error}"
+         class="mb-6 bg-red-950/50 text-red-200 px-5 py-3 rounded-xl"
+         th:text="${error}">
+    </div>
+
+    <form th:action="@{/sbom}" method="post" enctype="multipart/form-data" class="space-y-8">
+
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-8">
+            <h2 class="text-2xl font-bold mb-4">Upload SBOM File</h2>
+
+            <p class="text-slate-400 mb-6">
+                Supported format: CycloneDX JSON SBOM.
+            </p>
+
+            <input type="file"
+                   name="file"
+                   accept=".json,application/json"
+                   required
+                   class="block w-full text-slate-300 bg-slate-950 border border-slate-700 rounded-xl p-4 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:font-semibold hover:file:bg-blue-700">
+        </section>
+
+        <div class="flex gap-4">
+            <button type="submit"
+                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                Analyze SBOM
+            </button>
+
+            <a th:href="@{/dashboard}"
+               class="bg-slate-800 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </form>
+
+</main>
+
+</body>
+</html>

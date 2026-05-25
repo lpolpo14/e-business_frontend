@@ -8,6 +8,13 @@ import unipi.d3fender.dtos.AssessmentResponse;
 import unipi.d3fender.dtos.QuestionnaireResponse;
 
 import java.util.Map;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
+import unipi.d3fender.dtos.SbomAnalysisResponse;
+
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +54,29 @@ public class AssessmentClient {
                 .uri(apiBaseUrl + "/api/questionnaire")
                 .retrieve()
                 .body(QuestionnaireResponse.class);
+    }
+
+    public SbomAnalysisResponse analyzeSbom(MultipartFile file) {
+        try {
+            ByteArrayResource fileResource = new ByteArrayResource(file.getBytes()) {
+                @Override
+                public String getFilename() {
+                    return file.getOriginalFilename();
+                }
+            };
+
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", fileResource);
+
+            return restClient.post()
+                    .uri(apiBaseUrl + "/api/sbom/analyze")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+                    .body(body)
+                    .retrieve()
+                    .body(SbomAnalysisResponse.class);
+
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to analyze SBOM file", ex);
+        }
     }
 }
