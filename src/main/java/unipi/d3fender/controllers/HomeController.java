@@ -26,4 +26,14 @@ public class HomeController {
     public String securityPolicy() {
         return "security-policy";
     }
+
+    @GetMapping("/on-premise")
+    public String onPremise() {
+        return "on-premise";
+    }
+
+    @GetMapping("/contact-sales")
+    public String contactSales() {
+        return "redirect:/on-premise";
+    }
 }
