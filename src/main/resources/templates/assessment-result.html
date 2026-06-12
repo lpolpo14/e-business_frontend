@@ -3,6 +3,8 @@
 <head>
     <title>Assessment Result - D3FENDer</title>
     <link rel="stylesheet" th:href="@{/css/output.css}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 
 <body class="bg-slate-950 text-white min-h-screen">
@@ -39,6 +41,55 @@
             <p class="text-4xl font-bold" th:text="${response.findings_count}"></p>
         </div>
     </div>
+
+    <section class="bg-gradient-to-br from-indigo-950/40 to-blue-950/20 border border-blue-900/50 rounded-3xl px-8 py-7 mb-14 shadow-lg">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+            <div>
+                <p class="text-blue-300 text-sm font-semibold uppercase tracking-wide mb-2">
+                    AI Security Analyst
+                </p>
+
+                <h2 class="text-2xl font-bold mb-2">
+                    Explain This Assessment
+                </h2>
+
+                <p class="text-slate-400 leading-relaxed">
+                    Generate a plain-language explanation of the report, including key risks,
+                    prioritized recommendations, and ATT&amp;CK/D3FEND context.
+                </p>
+            </div>
+
+            <button id="generateAiExplanationButton"
+                    type="button"
+                    class="w-fit bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                Generate AI Explanation
+            </button>
+        </div>
+
+        <div id="aiExplanationLoading"
+             class="hidden mt-8 bg-slate-950/50 border border-slate-800 rounded-2xl px-6 py-5">
+            <p class="text-slate-300">
+                Generating AI explanation...
+            </p>
+            <p class="text-slate-500 text-sm mt-1">
+                D3FENDer is asking the AI Security Analyst to interpret the assessment.
+            </p>
+        </div>
+
+        <div id="aiExplanationError"
+             class="hidden mt-8 bg-red-950/40 border border-red-900/60 rounded-2xl px-6 py-5">
+            <p class="text-red-200 font-semibold mb-1">
+                AI explanation unavailable
+            </p>
+            <p id="aiExplanationErrorMessage" class="text-red-100/80 text-sm"></p>
+        </div>
+
+        <div id="aiExplanationPanel"
+             class="hidden mt-8 space-y-6">
+        </div>
+
+    </section>
 
     <div class="space-y-10">
 
@@ -205,5 +256,220 @@
 
 </main>
 
+<script th:inline="javascript">
+    const assessmentReport = /*[[${response}]]*/ {};
+
+    const generateButton = document.getElementById("generateAiExplanationButton");
+    const loadingPanel = document.getElementById("aiExplanationLoading");
+    const errorPanel = document.getElementById("aiExplanationError");
+    const errorMessage = document.getElementById("aiExplanationErrorMessage");
+    const explanationPanel = document.getElementById("aiExplanationPanel");
+
+    const csrfToken = document.querySelector('meta[name="_csrf"]')?.getAttribute("content");
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.getAttribute("content");
+
+    function escapeHtml(value) {
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function renderList(items) {
+        if (!Array.isArray(items) || items.length === 0) {
+            return `<p class="text-slate-500 text-sm">No items provided.</p>`;
+        }
+
+        return `
+            <ul class="space-y-2">
+                ${items.map(item => `
+                    <li class="text-slate-300 leading-relaxed flex gap-2">
+                        <span class="text-blue-300">•</span>
+                        <span>${escapeHtml(item)}</span>
+                    </li>
+                `).join("")}
+            </ul>
+        `;
+    }
+
+    function renderRecommendations(recommendations) {
+        if (!Array.isArray(recommendations) || recommendations.length === 0) {
+            return `<p class="text-slate-500 text-sm">No recommendations provided.</p>`;
+        }
+
+        return recommendations.map(rec => `
+            <div class="bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-5">
+                <h4 class="text-lg font-bold text-white mb-2">
+                    ${escapeHtml(rec.title)}
+                </h4>
+
+                <p class="text-slate-300 leading-relaxed mb-4">
+                    ${escapeHtml(rec.reason)}
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-slate-500 mb-2">
+                            Related ATT&amp;CK
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            ${(rec.relatedAttackTechniques || []).map(id => `
+                                <span class="bg-blue-950/50 text-blue-200 border border-blue-900/50 rounded-full px-3 py-1 text-xs font-mono">
+                                    ${escapeHtml(id)}
+                                </span>
+                            `).join("") || `<span class="text-slate-500 text-sm">None</span>`}
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-slate-500 mb-2">
+                            Related D3FEND
+                        </p>
+
+                        <div class="flex flex-wrap gap-2">
+                            ${(rec.relatedD3fendTechniques || []).map(id => `
+                                <span class="bg-emerald-950/50 text-emerald-200 border border-emerald-900/50 rounded-full px-3 py-1 text-xs font-mono">
+                                    ${escapeHtml(id)}
+                                </span>
+                            `).join("") || `<span class="text-slate-500 text-sm">None</span>`}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function riskBadgeClass(riskLevel) {
+        switch ((riskLevel || "").toUpperCase()) {
+            case "CRITICAL":
+                return "bg-red-900/80 text-red-100 border-red-700";
+            case "HIGH":
+                return "bg-red-950/70 text-red-200 border-red-900";
+            case "MEDIUM":
+                return "bg-yellow-950/70 text-yellow-200 border-yellow-900";
+            case "LOW":
+                return "bg-green-950/70 text-green-200 border-green-900";
+            default:
+                return "bg-slate-800 text-slate-200 border-slate-700";
+        }
+    }
+
+    function renderExplanation(data) {
+        explanationPanel.innerHTML = `
+            <div class="bg-slate-950/50 border border-slate-800 rounded-2xl px-6 py-5">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+                    <h3 class="text-xl font-bold">
+                        Report Summary
+                    </h3>
+
+                    <span class="w-fit border rounded-full px-4 py-1.5 text-sm font-bold ${riskBadgeClass(data.riskLevel)}">
+                        ${escapeHtml(data.riskLevel)} RISK
+                    </span>
+                </div>
+
+                <p class="text-slate-300 leading-relaxed">
+                    ${escapeHtml(data.executiveSummary)}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <section class="bg-slate-950/50 border border-slate-800 rounded-2xl px-6 py-5">
+                    <h3 class="text-lg font-bold mb-4">
+                        Key Observations
+                    </h3>
+
+                    ${renderList(data.keyObservations)}
+                </section>
+
+                <section class="bg-slate-950/50 border border-slate-800 rounded-2xl px-6 py-5">
+                    <h3 class="text-lg font-bold mb-4">
+                        Next Steps
+                    </h3>
+
+                    ${renderList(data.nextSteps)}
+                </section>
+            </div>
+
+            <section class="bg-slate-950/50 border border-slate-800 rounded-2xl px-6 py-5">
+                <h3 class="text-lg font-bold mb-4">
+                    Prioritized Recommendations
+                </h3>
+
+                <div class="space-y-4">
+                    ${renderRecommendations(data.priorityRecommendations)}
+                </div>
+            </section>
+
+            <section class="bg-blue-950/20 border border-blue-900/50 rounded-2xl px-6 py-5">
+                <h3 class="text-lg font-bold mb-3 text-blue-200">
+                    ATT&amp;CK / D3FEND Interpretation
+                </h3>
+
+                <p class="text-slate-300 leading-relaxed">
+                    ${escapeHtml(data.attackDefendExplanation)}
+                </p>
+            </section>
+
+            <p class="text-xs text-slate-500 leading-relaxed">
+                ${escapeHtml(data.disclaimer)}
+            </p>
+        `;
+
+        explanationPanel.classList.remove("hidden");
+    }
+
+    async function generateAiExplanation() {
+        generateButton.disabled = true;
+        generateButton.textContent = "Generating...";
+
+        loadingPanel.classList.remove("hidden");
+        errorPanel.classList.add("hidden");
+        explanationPanel.classList.add("hidden");
+
+        try {
+            const headers = {
+                "Content-Type": "application/json"
+            };
+
+            if (csrfToken && csrfHeader) {
+                headers[csrfHeader] = csrfToken;
+            }
+
+            const response = await fetch("/assessment/ai-explanation", {
+                method: "POST",
+                headers,
+                body: JSON.stringify({
+                    report: assessmentReport
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || data.details || "The AI service returned an error.");
+            }
+
+            renderExplanation(data);
+
+        } catch (error) {
+            errorMessage.textContent = error.message;
+            errorPanel.classList.remove("hidden");
+
+        } finally {
+            loadingPanel.classList.add("hidden");
+            generateButton.disabled = false;
+            generateButton.textContent = "Generate AI Explanation";
+        }
+    }
+
+    generateButton?.addEventListener("click", generateAiExplanation);
+</script>
 </body>
 </html>
