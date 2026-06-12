@@ -27,7 +27,11 @@ public class SubscriptionController {
 
     @PostMapping("/subscription/select")
     public String selectSubscription(@RequestParam String plan) {
-        userService.selectSubscription(plan);
-        return "redirect:/dashboard?subscriptionSelected";
+        if ("PRO".equalsIgnoreCase(plan)) {
+            userService.selectSubscription("PRO");
+            return "redirect:/dashboard?subscriptionSelected";
+        }
+
+        return "redirect:/pricing?invalidPlan";
     }
 }

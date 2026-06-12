@@ -46,7 +46,7 @@ public class UserService {
     }
 
     public void selectSubscription(String plan) {
-        if (!plan.equals("FREE") && !plan.equals("PRO")) {
+        if (!plan.equals("BASIC") && !plan.equals("PRO")) {
             throw new IllegalArgumentException("Invalid subscription plan");
         }
 
