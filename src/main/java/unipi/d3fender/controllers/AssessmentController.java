@@ -61,6 +61,10 @@ public class AssessmentController {
             return "redirect:/pricing?subscriptionRequired";
         }
 
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         model.addAttribute("assessmentRequest", new AssessmentRequest());
         return "assessment-json";
     }
@@ -71,12 +75,16 @@ public class AssessmentController {
             BindingResult bindingResult,
             Model model
     ) {
-        if (bindingResult.hasErrors()) {
-            return "assessment-json";
-        }
-
         if (!userService.currentUserHasSubscription()) {
             return "redirect:/pricing?subscriptionRequired";
+        }
+
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "assessment-json";
         }
 
         AssessmentResponse response =
@@ -131,6 +139,10 @@ public class AssessmentController {
             return "redirect:/pricing?subscriptionRequired";
         }
 
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         QuestionnaireResponse questionnaire = assessmentClient.getQuestionnaire();
 
         model.addAttribute("questions", questionnaire.getThreat_context());
@@ -145,6 +157,13 @@ public class AssessmentController {
             @RequestParam Map<String, String> formData,
             @ModelAttribute("questionnaireAnswers") Map<String, Boolean> answers
     ) {
+        if (!userService.currentUserHasSubscription()) {
+            return "redirect:/pricing?subscriptionRequired";
+        }
+
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
         saveBooleanAnswers(formData, answers);
         return "redirect:/assessment/questionnaire/controls";
     }
@@ -165,12 +184,29 @@ public class AssessmentController {
             @RequestParam Map<String, String> formData,
             @ModelAttribute("questionnaireAnswers") Map<String, Boolean> answers
     ) {
+        if (!userService.currentUserHasSubscription()) {
+            return "redirect:/pricing?subscriptionRequired";
+        }
+
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         saveBooleanAnswers(formData, answers);
         return "redirect:/assessment/questionnaire/capabilities";
     }
 
     @GetMapping("/questionnaire/capabilities")
     public String capabilitiesPage(Model model) {
+
+        if (!userService.currentUserHasSubscription()) {
+            return "redirect:/pricing?subscriptionRequired";
+        }
+
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         QuestionnaireResponse questionnaire = assessmentClient.getQuestionnaire();
 
         model.addAttribute("questions", questionnaire.getDefensive_capabilities());
@@ -187,6 +223,15 @@ public class AssessmentController {
             Model model,
             org.springframework.web.bind.support.SessionStatus sessionStatus
     ) {
+
+        if (!userService.currentUserHasSubscription()) {
+            return "redirect:/pricing?subscriptionRequired";
+        }
+
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         saveBooleanAnswers(formData, answers);
 
         AssessmentResponse response =

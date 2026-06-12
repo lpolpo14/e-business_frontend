@@ -38,6 +38,10 @@ public class SbomController {
             return "redirect:/pricing?subscriptionRequired";
         }
 
+        if (!userService.currentUserHasProSubscription()) {
+            return "redirect:/dashboard?proRequired";
+        }
+
         if (file.isEmpty()) {
             model.addAttribute("error", "Please upload a valid SBOM JSON file.");
             return "sbom";

@@ -29,6 +29,10 @@
     <h1 class="text-4xl font-bold mb-4">User Dashboard</h1>
     <p class="text-slate-400 mb-10">
         Choose how you want to perform your security assessment.
+        <span th:if="${currentPlan != null}"
+              class="ml-2 text-blue-400 font-semibold">
+        Current plan: <span th:text="${currentPlan}">FREE</span>
+    </span>
     </p>
 
     <!-- Assessment Methods -->
@@ -59,9 +63,16 @@
                 Answer guided questions to generate your security assessment.
             </p>
 
-            <a th:href="@{/assessment/questionnaire/threat-context}"
+            <a th:if="${isPro}"
+               th:href="@{/assessment/questionnaire/threat-context}"
                class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
                 Start
+            </a>
+
+            <a th:unless="${isPro}"
+               th:href="@{/pricing}"
+               class="block text-center bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed opacity-60">
+                Upgrade to Pro
             </a>
         </div>
 
@@ -77,9 +88,16 @@
                 Upload structured JSON data to perform automated security analysis.
             </p>
 
-            <a th:href="@{/assessment/json}"
+            <a th:if="${isPro}"
+               th:href="@{/assessment/json}"
                class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
                 Start
+            </a>
+
+            <a th:unless="${isPro}"
+               th:href="@{/pricing}"
+               class="block text-center bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed opacity-60">
+                Upgrade to Pro
             </a>
         </div>
 
@@ -95,9 +113,16 @@
                 Upload a JSON SBOM file and detect known vulnerabilities in its components.
             </p>
 
-            <a th:href="@{/sbom}"
+            <a th:if="${isPro}"
+               th:href="@{/sbom}"
                class="block text-center bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
                 Start
+            </a>
+
+            <a th:unless="${isPro}"
+               th:href="@{/pricing}"
+               class="block text-center bg-slate-700 px-6 py-3 rounded-lg font-semibold cursor-not-allowed opacity-60">
+                Upgrade to Pro
             </a>
         </div>
 

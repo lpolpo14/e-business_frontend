@@ -59,4 +59,18 @@ public class UserService {
         User user = getCurrentUser();
         return user.getSubscriptionPlan() != null;
     }
+
+    public String getCurrentUserPlan() {
+        return getCurrentUser().getSubscriptionPlan();
+    }
+
+    public boolean currentUserHasBasicSubscription() {
+        String plan = getCurrentUserPlan();
+        return "BASIC".equalsIgnoreCase(plan) || "PRO".equalsIgnoreCase(plan);
+    }
+
+    public boolean currentUserHasProSubscription() {
+        String plan = getCurrentUserPlan();
+        return "PRO".equalsIgnoreCase(plan);
+    }
 }
