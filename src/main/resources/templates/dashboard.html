@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Dashboard - D3FENDer</title>
     <link rel="stylesheet" th:href="@{/css/output.css}">
@@ -126,6 +126,13 @@
             </a>
         </div>
 
+    </div>
+
+    <div sec:authorize="hasRole('ADMIN')" class="mt-8">
+        <a href="/admin/dashboard"
+           class="inline-flex items-center rounded-lg bg-purple-600 px-5 py-3 text-white font-semibold hover:bg-purple-700 transition">
+            Go to Admin Dashboard
+        </a>
     </div>
 
 </main>

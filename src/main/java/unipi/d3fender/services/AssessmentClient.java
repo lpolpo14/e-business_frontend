@@ -79,4 +79,23 @@ public class AssessmentClient {
             throw new RuntimeException("Failed to analyze SBOM file", ex);
         }
     }
+
+    public SbomAnalysisResponse analyzeSbomBytes(byte[] bytes, String filename) {
+        ByteArrayResource fileResource = new ByteArrayResource(bytes) {
+            @Override
+            public String getFilename() {
+                return filename;
+            }
+        };
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", fileResource);
+
+        return restClient.post()
+                .uri(apiBaseUrl + "/api/sbom/analyze")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(body)
+                .retrieve()
+                .body(SbomAnalysisResponse.class);
+    }
 }

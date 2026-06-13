@@ -34,6 +34,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/assessment/**", "/dashboard/**", "/subscription/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/assessment/ai-explanation").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
