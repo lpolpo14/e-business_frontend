@@ -9,18 +9,133 @@
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<main class="flex-1">
-    <section class="max-w-4xl mx-auto mt-16 px-8">
-        <h1 class="text-4xl font-bold mb-6 text-center">Frequently Asked Questions</h1>
+<section class="max-w-5xl mx-auto py-20 px-8">
+    <div class="text-center mb-12">
+        <p class="text-blue-400 font-semibold mb-3">Help Center</p>
+        <h1 class="text-4xl font-bold mb-4">Frequently Asked Questions</h1>
+        <p class="text-slate-400 max-w-2xl mx-auto">
+            Quick answers about D3FENDer, assessment methods, gap detection, SBOM analysis, and defensive recommendations.
+        </p>
+    </div>
 
-        <div class="space-y-6 text-slate-300">
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-                <h2 class="text-xl font-semibold text-white mb-2">What is D3FENDer?</h2>
-                <p>D3FENDer is a threat-driven security assessment platform that helps identify security gaps using the MITRE ATT&CK and D3FEND frameworks.</p>
-            </div>
-        </div>
-    </section>
-</main>
+    <div class="space-y-4 text-slate-300">
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                What is D3FENDer?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                D3FENDer is a threat-driven security assessment platform that helps identify security gaps using
+                MITRE ATT&CK for adversary behavior and D3FEND for defensive techniques.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                What assessment methods are supported?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                D3FENDer supports standard text-based assessment, guided questionnaire assessment, structured JSON input,
+                and SBOM vulnerability analysis.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                How does the standard assessment work?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                The user describes their system in plain text. D3FENDer uses semantic processing to interpret the input,
+                normalize it into defensive capabilities, evaluate relevant security rules, and generate findings.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                How does the questionnaire assessment work?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                The questionnaire guides the user through structured security questions. The answers are converted into
+                normalized defensive measures, then evaluated by the rule engine to identify missing protections.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                How does JSON input work?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                JSON input allows users to submit structured security data directly. Since the data is already structured,
+                D3FENDer can normalize it more directly and run it through the same rule evaluation pipeline.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                How does SBOM analysis work?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                The uploaded SBOM file is parsed to extract software components. D3FENDer checks those components against
+                vulnerability data sources such as OSV, records discovered vulnerabilities, and presents the affected
+                components to the user.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                How does gap detection work?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                D3FENDer normalizes the user’s defensive capabilities, retrieves matching assessment rules, checks each
+                rule’s conditions, and creates a security finding when important defensive measures are missing.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                What role does the rule engine play?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                The rule engine compares normalized security capabilities against predefined rule conditions. For example,
+                if a required protection is absent, the engine can create a finding and recommend relevant D3FEND techniques.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                What are MITRE ATT&CK and D3FEND?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                MITRE ATT&CK describes adversary tactics and techniques. D3FEND complements it by describing defensive
+                techniques that can help detect, harden, isolate, deceive, or evict adversary behavior.
+            </p>
+        </details>
+
+        <details class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <summary class="cursor-pointer text-xl font-semibold text-white">
+                Is D3FENDer a replacement for a full security audit?
+            </summary>
+            <p class="mt-4 text-slate-400">
+                No. D3FENDer supports security analysis and prioritization, but findings should be reviewed by qualified
+                security personnel before production decisions are made.
+            </p>
+        </details>
+
+    </div>
+
+    <div class="mt-10 bg-blue-600/10 border border-blue-800 rounded-xl p-8 text-center">
+        <h2 class="text-2xl font-bold mb-3">Still have questions?</h2>
+        <p class="text-slate-300 mb-6 max-w-2xl mx-auto">
+            Contact us if you need help understanding an assessment result, using a specific input method,
+            or interpreting a security finding.
+        </p>
+
+        <a
+           class="inline-flex bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Contact Us
+        </a>
+    </div>
+</section>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
