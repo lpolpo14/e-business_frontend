@@ -71,6 +71,122 @@
     </form>
 </main>
 
+<section class="mt-12 bg-slate-900 border border-slate-800 rounded-2xl p-8">
+    <div class="mb-8">
+        <p class="text-blue-400 font-semibold mb-3">Plain-Text Input Guide</p>
+        <h2 class="text-3xl font-bold mb-4">How plain-text assessment works</h2>
+
+        <p class="text-slate-400 leading-relaxed">
+            Plain-text input allows the user to describe the organization’s defensive capabilities and threat context
+            using simple natural language, without following a strict JSON structure or a specific syntax.
+            This makes the assessment easier to use for both security specialists and users who are not familiar
+            with the internal defensive capability fields of the platform.
+        </p>
+
+        <p class="text-slate-400 leading-relaxed mt-4">
+            D3FENDer processes the submitted text by identifying phrases and terms that correspond to entries in its
+            defensive capabilities registry, security controls registry, and threat context model. The extracted
+            information is then normalized into the same internal structure used by the JSON assessment flow.
+        </p>
+    </div>
+
+    <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 mb-8">
+        <h3 class="text-xl font-semibold mb-3">Example input</h3>
+
+        <pre class="overflow-x-auto text-sm text-slate-300 whitespace-pre-wrap"><code>We are a software engineering company. We have token based authentication.
+We do not have token binding. We also perform code scanning.</code></pre>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">1. Text processing</h3>
+            <p class="text-slate-400 text-sm">
+                The submitted paragraph is split into smaller informational units. D3FENDer detects positive and
+                negative statements, such as controls that exist and controls that are explicitly missing.
+            </p>
+        </div>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">2. Normalization</h3>
+            <p class="text-slate-400 text-sm">
+                The detected phrases are mapped to canonical internal fields. For example, “code scanning” can be
+                normalized as <span class="font-mono text-blue-400">sw.code_analysis</span>.
+            </p>
+        </div>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">3. Rule evaluation</h3>
+            <p class="text-slate-400 text-sm">
+                The normalized capabilities are evaluated against assessment rules. When a relevant protection is
+                missing, D3FENDer generates a security finding.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="mt-8 bg-slate-950 border border-slate-800 rounded-xl p-6">
+        <h3 class="text-xl font-semibold mb-4">How the example is interpreted</h3>
+
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+                <p class="text-slate-400 mb-2">Threat context</p>
+                <p class="font-mono text-blue-400">ctx.software_engineering_activity</p>
+                <p class="text-green-400 font-mono mt-2">true</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+                <p class="text-slate-400 mb-2">Implemented capability</p>
+                <p class="font-mono text-blue-400">auth.token_based_authentication</p>
+                <p class="text-green-400 font-mono mt-2">true</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+                <p class="text-slate-400 mb-2">Missing capability</p>
+                <p class="font-mono text-blue-400">cred.token_binding</p>
+                <p class="text-red-400 font-mono mt-2">false</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 bg-blue-600/10 border border-blue-800 rounded-xl p-6">
+        <h3 class="text-xl font-semibold mb-3">Semantic matching</h3>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+            Plain-text input does not require the exact internal field names. D3FENDer uses a lightweight semantic
+            layer to compare user phrases with known capability descriptions and aliases. This means that similar
+            expressions such as “code scanning”, “code analysis”, or “code review tooling” can be matched to the
+            closest normalized defensive capability.
+        </p>
+    </div>
+
+    <div class="mt-8 bg-slate-950 border border-slate-800 rounded-xl p-6">
+        <h3 class="text-xl font-semibold mb-4">Useful phrases to include</h3>
+
+        <div class="grid md:grid-cols-2 gap-6 text-sm">
+            <div>
+                <h4 class="font-semibold text-white mb-3">Organization context</h4>
+                <ul class="space-y-2 text-slate-400">
+                    <li>We are a software engineering company.</li>
+                    <li>We use web applications.</li>
+                    <li>We expose services to the internet.</li>
+                    <li>We use cloud infrastructure.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-semibold text-white mb-3">Security capabilities</h4>
+                <ul class="space-y-2 text-slate-400">
+                    <li>We use token based authentication.</li>
+                    <li>We perform code scanning.</li>
+                    <li>We do not have token binding.</li>
+                    <li>We have multi-factor authentication.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <script>
     const assessmentForm = document.getElementById("assessmentForm");

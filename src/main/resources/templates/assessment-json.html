@@ -93,6 +93,110 @@
     </form>
 </main>
 
+<section class="mt-12 bg-slate-900 border border-slate-800 rounded-2xl p-8">
+    <div class="mb-8">
+        <p class="text-blue-400 font-semibold mb-3">JSON Input Guide</p>
+        <h2 class="text-3xl font-bold mb-4">How structured JSON assessment works</h2>
+
+        <p class="text-slate-400 leading-relaxed">
+            JSON input is designed for users who want a strict, predefined, and reproducible assessment format.
+            Instead of describing the organization in plain text, the user provides structured data about the
+            organization, its threat context, implemented security controls, and defensive capabilities.
+        </p>
+
+        <p class="text-slate-400 leading-relaxed mt-4">
+            D3FENDer reads the JSON file, identifies the relevant sections, normalizes the provided values into
+            internal defensive measures, retrieves the appropriate assessment rules, and evaluates whether important
+            security capabilities are present or missing. If the conditions of a rule are met, the platform generates
+            a security finding and maps it to relevant ATT&CK and D3FEND techniques.
+        </p>
+    </div>
+
+    <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 mb-8">
+        <h3 class="text-xl font-semibold mb-3">Expected top-level structure</h3>
+
+        <pre class="overflow-x-auto text-sm text-slate-300"><code>{
+  "metadata": {
+    "organization": "Mike Corp",
+    "assessment_id": "assessment_01",
+    "assessment_date": "15-03-2026",
+    "assessor": "Michael"
+  },
+  "threat_context": {},
+  "security_controls": {},
+  "defensive_capabilities": {}
+}</code></pre>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">threat_context</h3>
+            <p class="text-slate-400 text-sm mb-5">
+                Describes the organization’s environment, activities, and exposure. These fields help D3FENDer decide
+                which rules are relevant before evaluating defenses.
+            </p>
+
+            <ul class="space-y-2 text-sm text-slate-300 font-mono">
+                <li>software_engineering_activity</li>
+                <li>uses_web_applications</li>
+                <li>handles_sensitive_data</li>
+                <li>internet_facing_services</li>
+                <li>uses_cloud_services</li>
+                <li>remote_access_enabled</li>
+            </ul>
+        </div>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">security_controls</h3>
+            <p class="text-slate-400 text-sm mb-5">
+                Contains implemented security controls grouped by category. Values are usually boolean:
+                <span class="text-green-400 font-mono">true</span> if implemented,
+                <span class="text-red-400 font-mono">false</span> if missing.
+            </p>
+
+            <ul class="space-y-2 text-sm text-slate-300 font-mono">
+                <li>network_security.firewall</li>
+                <li>network_security.vpn</li>
+                <li>access_control.identity_access_management</li>
+                <li>access_control.role_based_access_control</li>
+                <li>monitoring.logging</li>
+                <li>monitoring.alerting</li>
+            </ul>
+        </div>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-6">
+            <h3 class="text-xl font-semibold mb-3">defensive_capabilities</h3>
+            <p class="text-slate-400 text-sm mb-5">
+                Represents detailed defensive capabilities. This is the most important section because it directly
+                affects gap detection and rule evaluation.
+            </p>
+
+            <ul class="space-y-2 text-sm text-slate-300 font-mono">
+                <li>authentication.token_based_authentication</li>
+                <li>authentication.password_authentication</li>
+                <li>authentication.multi_factor_authentication</li>
+                <li>authentication.certificate_based_authentication</li>
+                <li>credential_hardening.certificate_pinning</li>
+                <li>credential_hardening.credential_rotation</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="mt-8 bg-blue-600/10 border border-blue-800 rounded-xl p-6">
+        <h3 class="text-xl font-semibold mb-3">Example rule interpretation</h3>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+            For example, if the threat context shows that the organization performs software engineering activity,
+            but defensive capabilities such as ASLR or stack frame canary validation are missing, D3FENDer can generate
+            a finding such as missing stack overflow mitigations. The finding can then be linked to ATT&CK techniques
+            like exploitation of public-facing applications and D3FEND techniques such as address randomization or
+            stack canary validation.
+        </p>
+    </div>
+</section>
+
 </body>
 
 <script>
