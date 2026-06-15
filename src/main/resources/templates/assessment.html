@@ -28,7 +28,11 @@
         Describe your organization's defensive capabilities and security controls in plain text. Please separate the controls using punctuation marks.
     </p>
 
-    <form th:action="@{/assessment}" th:object="${assessmentRequest}" method="post" class="space-y-6">
+    <form id="assessmentForm"
+          th:action="@{/assessment}"
+          th:object="${assessmentRequest}"
+          method="post"
+          class="space-y-6">
         <div>
             <label class="block mb-3 text-sm font-medium text-slate-300">
                 Organization security description
@@ -44,12 +48,41 @@
                class="text-red-400 text-sm mt-2"></p>
         </div>
 
-        <button type="submit"
-                class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+
+        <div id="loadingMessage"
+             class="hidden bg-blue-600/10 border border-blue-800 rounded-xl p-5 text-slate-300">
+            <div class="flex items-center gap-4">
+                <div class="h-6 w-6 rounded-full border-4 border-blue-400 border-t-transparent animate-spin"></div>
+
+                <div>
+                    <p class="font-semibold text-white">Please wait, your report is being generated.</p>
+                    <p class="text-sm text-slate-400 mt-1">
+                        D3FENDer is analyzing your defensive capabilities and mapping the results.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <button id="submitButton"
+                type="submit"
+                class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed">
             Run Assessment
         </button>
     </form>
 </main>
+
+
+<script>
+    const assessmentForm = document.getElementById("assessmentForm");
+    const loadingMessage = document.getElementById("loadingMessage");
+    const submitButton = document.getElementById("submitButton");
+
+    assessmentForm.addEventListener("submit", function () {
+        loadingMessage.classList.remove("hidden");
+        submitButton.disabled = true;
+        submitButton.textContent = "Generating Report...";
+    });
+</script>
 
 </body>
 </html>

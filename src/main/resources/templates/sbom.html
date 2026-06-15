@@ -42,7 +42,11 @@
          th:text="${error}">
     </div>
 
-    <form th:action="@{/sbom}" method="post" enctype="multipart/form-data" class="space-y-8">
+    <form id="sbomForm"
+          th th:action="@{/sbom}"
+          method="post"
+          enctype="multipart/form-data"
+          class="space-y-8">
 
         <section class="bg-slate-900 border border-slate-800 rounded-2xl p-8">
             <h2 class="text-2xl font-bold mb-4">Upload SBOM File</h2>
@@ -58,9 +62,24 @@
                    class="block w-full text-slate-300 bg-slate-950 border border-slate-700 rounded-xl p-4 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:font-semibold hover:file:bg-blue-700">
         </section>
 
+        <div id="loadingMessage"
+             class="hidden bg-blue-600/10 border border-blue-800 rounded-xl p-5 text-slate-300">
+            <div class="flex items-center gap-4">
+                <div class="h-6 w-6 rounded-full border-4 border-blue-400 border-t-transparent animate-spin"></div>
+
+                <div>
+                    <p class="font-semibold text-white">Please wait, your SBOM report is being generated.</p>
+                    <p class="text-sm text-slate-400 mt-1">
+                        D3FENDer is parsing the SBOM, checking components, and searching for known vulnerabilities.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="flex gap-4">
-            <button type="submit"
-                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+            <button id="submitButton"
+                    type="submit"
+                    class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed">
                 Analyze SBOM
             </button>
 
@@ -73,6 +92,18 @@
     </form>
 
 </main>
+
+<script>
+    const sbomForm = document.getElementById("sbomForm");
+    const loadingMessage = document.getElementById("loadingMessage");
+    const submitButton = document.getElementById("submitButton");
+
+    sbomForm.addEventListener("submit", function () {
+        loadingMessage.classList.remove("hidden");
+        submitButton.disabled = true;
+        submitButton.textContent = "Analyzing SBOM...";
+    });
+</script>
 
 </body>
 </html>
