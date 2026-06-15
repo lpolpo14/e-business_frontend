@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
 import unipi.d3fender.dtos.AssessmentRequest;
 import unipi.d3fender.dtos.AssessmentResponse;
 import unipi.d3fender.dtos.QuestionnaireResponse;
@@ -22,6 +25,7 @@ public class AssessmentController {
 
     private final AssessmentClient assessmentClient;
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
 
     @GetMapping
@@ -87,12 +91,24 @@ public class AssessmentController {
             return "assessment-json";
         }
 
-        AssessmentResponse response =
-                assessmentClient.assessJson(assessmentRequest.getContent());
+        try {
+            objectMapper.readTree(assessmentRequest.getContent());
+        } catch (JacksonException e) {
+            model.addAttribute("error", "Invalid JSON input. Please check your syntax and try again.");
+            return "assessment-json";
+        }
 
-        model.addAttribute("response", response);
+        try {
+            AssessmentResponse response =
+                    assessmentClient.assessJson(assessmentRequest.getContent());
 
-        return "assessment-result";
+            model.addAttribute("response", response);
+
+            return "assessment-result";
+        } catch (RestClientException e) {
+            model.addAttribute("error", "D3FENDer could not process this JSON assessment right now. Please try again.");
+            return "assessment-json";
+        }
     }
 
     @GetMapping("/questionnaire")

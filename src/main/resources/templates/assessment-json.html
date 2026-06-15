@@ -35,6 +35,14 @@
         </p>
     </div>
 
+    <div th:if="${error}"
+         class="mb-6 bg-red-950/50 border border-red-800 text-red-200 px-5 py-4 rounded-xl">
+        <p class="font-semibold">Assessment could not be submitted</p>
+        <p class="text-sm mt-1" th:text="${error}">
+            Invalid JSON input.
+        </p>
+    </div>
+
     <form th:action="@{/assessment/json}" th:object="${assessmentRequest}" method="post" class="space-y-6">
         <div>
             <div class="flex items-center justify-between mb-3">

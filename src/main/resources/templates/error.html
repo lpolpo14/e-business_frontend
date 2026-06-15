@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error - D3FENDer</title>
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen flex flex-col">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="flex-1 flex items-center justify-center px-8 py-20">
+    <section class="max-w-2xl w-full text-center bg-slate-900 border border-slate-800 rounded-2xl p-10">
+
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/15 border border-red-800">
+            <span class="text-3xl text-red-300">!</span>
+        </div>
+
+        <p class="text-red-300 font-semibold mb-3">
+            Something went wrong
+        </p>
+
+        <h1 class="text-4xl font-bold mb-4">
+            Sorry, there has been an error.
+        </h1>
+
+        <p class="text-slate-400 mb-8">
+            D3FENDer could not complete your request. Please return to the main page and try again.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a th:href="@{/}"
+               class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                Return to Main Page
+            </a>
+
+            <a th:href="@{/dashboard}"
+               class="bg-slate-800 px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 transition">
+                Go to Dashboard
+            </a>
+        </div>
+
+        <div class="mt-8 border-t border-slate-800 pt-6 text-sm text-slate-500">
+            <p>
+                Error status:
+                <span th:text="${status}">500</span>
+            </p>
+        </div>
+
+    </section>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
