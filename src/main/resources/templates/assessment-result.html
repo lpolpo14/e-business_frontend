@@ -454,6 +454,8 @@
 
             if (!response.ok) {
                 throw new Error(data.message || data.details || "The AI service returned an error.");
+                // throw new Error(data.details || data.message || "The AI service returned an error.");            }
+
             }
 
             renderExplanation(data);
