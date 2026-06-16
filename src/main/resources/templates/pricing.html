@@ -5,10 +5,11 @@
     <link rel="stylesheet" th:href="@{/css/output.css}">
 </head>
 
-<body class="bg-slate-950 text-white min-h-screen">
+<body class="bg-slate-950 text-white min-h-dvh flex flex-col">
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
+<main class="flex-1">
 <div class="max-w-5xl mx-auto mt-8">
 
     <div th:if="${param.termsRequired}"
@@ -178,6 +179,7 @@
     </div>
 </section>
 
+</main>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 
