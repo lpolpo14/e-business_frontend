@@ -73,12 +73,28 @@
                 </p>
             </div>
 
-            <form th:action="@{/admin/sbom/analyze}" method="post">
-                <button type="submit"
-                        class="bg-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-700">
+            <form id="adminSbomForm"
+                  th:action="@{/admin/sbom/analyze}"
+                  method="post">
+                <button id="adminSbomSubmitButton"
+                        type="submit"
+                        class="bg-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed">
                     Analyze SBOM
                 </button>
             </form>
+        </div>
+        <div id="adminSbomLoadingMessage"
+             class="hidden mt-6 bg-green-600/10 border border-green-800 rounded-xl p-5 text-slate-300">
+            <div class="flex items-center gap-4">
+                <div class="h-6 w-6 rounded-full border-4 border-green-400 border-t-transparent animate-spin"></div>
+
+                <div>
+                    <p class="font-semibold text-white">Please wait, the backend SBOM report is being generated.</p>
+                    <p class="text-sm text-slate-400 mt-1">
+                        D3FENDer is analyzing backend components and checking for known vulnerabilities.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -144,6 +160,18 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    const adminSbomForm = document.getElementById("adminSbomForm");
+    const adminSbomLoadingMessage = document.getElementById("adminSbomLoadingMessage");
+    const adminSbomSubmitButton = document.getElementById("adminSbomSubmitButton");
+
+    adminSbomForm.addEventListener("submit", function () {
+        adminSbomLoadingMessage.classList.remove("hidden");
+        adminSbomSubmitButton.disabled = true;
+        adminSbomSubmitButton.textContent = "Analyzing SBOM...";
+    });
+</script>
 
 </body>
 </html>
