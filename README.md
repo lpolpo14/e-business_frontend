@@ -7,7 +7,7 @@ D3FENDer is a threat-driven and context aware security assessment platform that 
 There is an online and showcase version of D3FENDer hosted using Railway that presents its maincapabilities.
 For more details please read the presentation [presentation.pdf](https://github.com/lpolpo14/e-business_frontend/blob/main/presentation.pdf)
 
-The website is hosted [https://d3fender.up.railway.app](https://d3fender.up.railway.app)
+The website is hosted at [https://d3fender.up.railway.app](https://d3fender.up.railway.app)
 
 ## Value
 
